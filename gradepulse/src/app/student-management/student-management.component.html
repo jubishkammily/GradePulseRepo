@@ -1,0 +1,30 @@
+
+<form #studentForm="ngForm" (ngSubmit)="onSubmit()">
+    <h2>Student</h2>
+    <br>
+    <!-- <hr> -->
+    <div class="mb-3 form-floating element-size">
+        <input 
+        type = "text"
+        class = "form-control w-50"
+        name="studentName"
+        [(ngModel)] = "model.studentName"
+        placeholder="name"
+        >
+      <label>Name</label>
+    </div>
+    <div class="mb-3 form-floating element-size">
+        <input 
+        type = "date"
+        class = "form-control w-50"
+        name="studentDOB"
+        [(ngModel)] = "model.DOB"
+        placeholder="Date Of Birth"
+        >
+      <label>Age</label>
+    </div>
+    <div class="form-group text-center">
+      <button class="btn btn-primary me-3" type="submit">Add</button>
+    </div> 
+</form>
+
