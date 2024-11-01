@@ -1,8 +1,10 @@
 ﻿using GradePulseAPI.DTOs;
+using GradePulseAPI.Services;
 using GradePulseAPI.Services.Mapping;
 using GrapePulseAPI.Data;
 using GrapePulseAPI.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -11,35 +13,78 @@ namespace GrapePulseAPI.Controllers
 {
     public class StudentsController : BaseController
     {
-        private readonly SchoolDBContext _dbContext;
-        private IEntityToDtoMapping _entityToDtoMapping;
-        public StudentsController(SchoolDBContext context, IEntityToDtoMapping EntityToDtoMapping) {
-            _dbContext = context;
-            _entityToDtoMapping = EntityToDtoMapping;
+        private IStudentService _studentService;
+
+        public StudentsController(IStudentService studentService) {
+            _studentService = studentService;
         }
 
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
-            var students = await _dbContext.Students.ToListAsync();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var studentDtoList = _entityToDtoMapping.StudentEntityToDtoMApping(students);
-            return studentDtoList;
-
+            return Ok(await _studentService.GetAllStudentsAsync());     
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentDto>> GetStudent(int id)
         {
-            var student = await _dbContext.Students.FindAsync(id);
-            if(student == null)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var student = await _studentService.GetStudentAsync(id);
+            if (student == null)
             {
-                return  NotFound();
+                return NotFound();
             }
 
-           var studentDto =  _entityToDtoMapping.StudentEntityToDtoMApping(student);
-           return studentDto;                       
+            return Ok(await _studentService.GetAllStudentsAsync());
         }
+
+        [HttpPost("AddStudent")]
+        public async Task<ActionResult> AddStudent(StudentDto studentDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(await _studentService.AddStudentAsync(studentDto));
+        }
+
+        [HttpPut("id")]
+        public async Task<IActionResult> UpdateStudent(int id,[FromBody] StudentDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var studentToUpdate = await _studentService.GetStudentAsync(id);
+            
+
+            if (studentToUpdate == null)
+                return NotFound();
+            
+            await _studentService.UpdateStudentAsync(id, dto);
+            return Ok();           
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteStudent(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var studentToUpdate = await _studentService.GetStudentAsync(id);
+
+
+            if (studentToUpdate == null)
+                return NotFound();
+
+            await _studentService.DeleteAsync(id);
+            return Ok();
+        }
+
+
     }
 }

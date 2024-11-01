@@ -15,6 +15,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+
 app.UseAuthorization();
 
 app.MapControllers();

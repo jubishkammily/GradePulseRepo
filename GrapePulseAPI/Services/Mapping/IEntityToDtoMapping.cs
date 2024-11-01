@@ -6,6 +6,6 @@ namespace GradePulseAPI.Services.Mapping
     public interface IEntityToDtoMapping
     {
         StudentDto StudentEntityToDtoMApping(Student entity);
-        List<StudentDto> StudentEntityToDtoMApping(List<Student> entityList);
+        List<StudentDto> StudentsEntityToDtoMApping(List<Student> entityList);
     }
 }

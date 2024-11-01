@@ -1,30 +1,52 @@
-
-<form #studentForm="ngForm" (ngSubmit)="onSubmit()">
-    <h2>Student</h2>
-    <br>
-    <!-- <hr> -->
-    <div class="mb-3 form-floating element-size">
-        <input 
-        type = "text"
-        class = "form-control w-50"
-        name="studentName"
-        [(ngModel)] = "model.studentName"
-        placeholder="name"
-        >
-      <label>Name</label>
-    </div>
-    <div class="mb-3 form-floating element-size">
-        <input 
-        type = "date"
-        class = "form-control w-50"
-        name="studentDOB"
-        [(ngModel)] = "model.DOB"
-        placeholder="Date Of Birth"
-        >
-      <label>Age</label>
-    </div>
-    <div class="form-group text-center">
-      <button class="btn btn-primary me-3" type="submit">Add</button>
-    </div> 
+<div id="tableContainer">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Date Of Birth</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- @for (student of students; track student.id) { -->
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.dateOfBirth }}</td>
+        <td><a href="#">edit</a></td>
+      </tr>
+      <!-- } -->
+    </tbody>
+  </table>
+  <!-- <ul>
+    @for (student of students; track student) {
+      <li>{{ student.name }}</li>
+    }
+    
+  </ul> -->
+</div>
+<div>
+  <button class="btn btn-primary me-3" type="button" (click)="showAdd()">Add</button>
+</div>
+<!-- @if(this.isAddVisible){ -->
+<form *ngIf="isAddVisible" #studentForm="ngForm" (ngSubmit)="onSubmit()">
+  <h2>Student</h2>
+  <br>
+  <!-- <hr> -->
+  <div class="mb-3 form-floating element-size">
+    <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="student.name" placeholder="name">
+    <label>Name</label>
+  </div>
+  <div class="mb-3 form-floating element-size">
+    <input type="date" class="form-control w-50" name="studentDOB" [(ngModel)]="student.dateOfBirth"
+      placeholder="Date Of Birth">
+    <label>Age</label>
+  </div>
+  <div class="form-group text-center">
+    <button class="btn btn-primary me-3" type="submit">Save</button>
+    <button class="btn btn-primary me-3" type="button" (click)="hideAdd()">Cancel</button>
+  </div>
+  
 </form>
-
+<!-- } -->

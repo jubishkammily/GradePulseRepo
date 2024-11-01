@@ -11,12 +11,13 @@ namespace GradePulseAPI.Services.Mapping
             StudentDto studentDto = new StudentDto();
             studentDto.Id = entity.Id;
             studentDto.Name = entity.Name;
+            studentDto.DateOfBirth = entity.DateOfBirth.ToString();
 
             return studentDto;
 
         }
 
-        public List<StudentDto> StudentEntityToDtoMApping(List<Student> entityList)
+        public List<StudentDto> StudentsEntityToDtoMApping(List<Student> entityList)
         {
             var studentDtoList = new List<StudentDto>();               
 
@@ -24,6 +25,7 @@ namespace GradePulseAPI.Services.Mapping
                 var studentDto = new StudentDto();
                 studentDto.Id = student.Id;
                 studentDto.Name = student.Name;
+                studentDto.DateOfBirth = student.DateOfBirth.ToString();
                 studentDtoList.Add(studentDto);
             }
 
