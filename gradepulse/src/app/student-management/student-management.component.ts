@@ -17,9 +17,14 @@ student:any = {
   "name":null,
   "dateOfBirth":null
 }
+editedStudent:any = {
+  "name":null,
+  "dateOfBirth":null
+}
 students: any;
 isAddVisible:boolean = false;
 studentService = inject(StudentService);
+isEditVisible:boolean = false;
 private changeDetectorRef = inject(ChangeDetectorRef);
 
 ngOnInit(): void {
@@ -32,13 +37,14 @@ ngOnInit(): void {
       this.studentService.createStudent(this.student).subscribe({
         next: (response) => {
           console.log("post");  
-          this.changeDetectorRef.detectChanges();         
+          this.loadStudents(); 
+                  
         },
         error: error => console.log(error),
         complete: () => console.log("get completed")
       });
     }
-    this.loadStudents();    
+    
   }
 
   loadStudents(){
@@ -46,6 +52,7 @@ ngOnInit(): void {
       next:(response) => {
         //console.log("next");
         this.students = response;     
+        this.changeDetectorRef.detectChanges(); 
       },
       error: error => console.log(error),
       complete: ()=> console.log("get completed")
@@ -58,6 +65,44 @@ ngOnInit(): void {
 
   hideAdd(){
     this.isAddVisible = false;
+  }
+
+  deleteStudent(id:number){
+    console.log("Delete : ",id);    
+    this.studentService.deleteStudent(id).subscribe({
+      next:(response) => {        
+        this.students = response;     
+      },
+      error: error => console.log(error),
+      complete: ()=> console.log("delete completed")
+    });       
+  }
+
+  editStudent(id:number){
+    this.isEditVisible = true;
+    this.studentService.getStudent(id).subscribe({
+      next:(response) => {        
+        this.editedStudent = response;     
+        console.log("DOB : ",this.editedStudent.dateOfBirth);                        
+        this.editedStudent.dateOfBirth = this.studentService.formatDate(this.editedStudent.dateOfBirth);
+      },
+      error: error => console.log(error),
+      complete: ()=> console.log("get edit completed")
+    });       
+  }
+  saveEdit(id:number){
+    this.isEditVisible = false;
+    this.studentService.updateStudent(this.editedStudent).subscribe({
+      next:(response) => {  
+        this.loadStudents();                  
+      },
+      error: error => console.log(error),
+      complete: ()=> console.log("save edit completed")
+    });
+  }
+
+  cancelEdit(){
+    this.isEditVisible = false;
   }
 
 

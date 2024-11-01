@@ -9,7 +9,7 @@ namespace GradePulseAPI.Services.Mapping
         {
             Student student = new Student() {                
                 Name = dto.Name,
-                DateOfBirth = DateTime.Parse(dto.DateOfBirth)
+                DateOfBirth = DateTime.Parse(dto.DateOfBirth).Date
             };
             return student;
         }

@@ -41,7 +41,7 @@ namespace GrapePulseAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(await _studentService.GetAllStudentsAsync());
+            return Ok(await _studentService.GetStudentAsync(id));
         }
 
         [HttpPost("AddStudent")]
@@ -49,11 +49,11 @@ namespace GrapePulseAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+            
             return Ok(await _studentService.AddStudentAsync(studentDto));
         }
 
-        [HttpPut("id")]
+        [HttpPut("Update/{id}")]
         public async Task<IActionResult> UpdateStudent(int id,[FromBody] StudentDto dto)
         {
             if (!ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace GrapePulseAPI.Controllers
             return Ok();           
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> DeleteStudent(int id)
         {
             if (!ModelState.IsValid)

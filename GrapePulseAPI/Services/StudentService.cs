@@ -45,7 +45,7 @@ namespace GradePulseAPI.Services
         {
             Student student = await _repository.GetByIdAsync(id);
             student.Name = dto.Name;
-            student.DateOfBirth = DateTime.Parse(dto.DateOfBirth);
+            student.DateOfBirth = DateTime.Parse(dto.DateOfBirth).Date;
             await _repository.UpdateAsync(student);            
         }
 
