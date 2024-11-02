@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { StudentService } from '../services/student.service';
 import { SubjectService } from '../services/subject.service';
 import { GradeService } from '../services/grade.service';
+import { Grade } from '../models/grade.model';
 
 
 @Component({
@@ -15,30 +16,32 @@ import { GradeService } from '../services/grade.service';
 })
 export class GradeManagementComponent implements OnInit {
 
+  allStudents:any;
   students:any;
   subjects:any;
-  // grades:Grade={
-  //   studentId: '',
-  //   subjectId: '',
-  //   gradeValue: ''
-  // };
-  grades:any = {};
+  
+  grades:Grade={
+    studentId: '',
+    subjectId: '',
+    gradeValue: ''
+  };
+
   studentService = inject(StudentService);
   subjectService = inject(SubjectService);
   gradeService = inject(GradeService);
   studentsWithKey: { [key: string]: string } = {};
 
 
-  studentSearch:any;
-  //filteredStudents
+  selectedStudentId:any;
+  
 
   ngOnInit(): void {
-    // this.studentService.getStudents().subscribe({
-    //   next:(response) =>{
-    //     this.students = response;
-    //     this.loadStudentWithKeys();
-    //   }
-    // });
+    this.studentService.getStudents().subscribe({
+      next:(response) =>{
+        this.allStudents = response;
+        //this.loadStudentWithKeys();
+      }
+    });
     this.subjectService.getSubjects().subscribe({
       next:(response) =>{
         this.subjects = response;
@@ -74,9 +77,6 @@ export class GradeManagementComponent implements OnInit {
   saveGrades(){    
   }
 
-  filterStudents(){
-
-  }
 
   loadStudentWithKeys(){
     for(var student of this.students){

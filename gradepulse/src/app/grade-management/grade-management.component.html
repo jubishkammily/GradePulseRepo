@@ -35,28 +35,39 @@
 </table>
 </div>
 
-<div class="container editBox">
+<div class="container">
  
   <div class="editContainer">
-    <div class="mb-3 form-floating element-size">
-      <input type="text" class="form-control w-50" name="studentName" placeholder="name"[(ngModel)]="studentSearch"  (input)="filterStudents()">
+    <!-- <div class="mb-3 form-floating element-size">
+      <input type="text" class="form-control w-50" name="studentName" placeholder="name">
       <label>Student</label>
-    </div>
-      
-  <!-- <ul *ngIf="filteredStudents.length > 0" class="suggestions">
-    <li *ngFor="let student of filteredStudents" (click)="selectStudent(student)">
-      {{ student.name }}
-    </li>
-  </ul> -->
+    </div> --> 
 
-    <div class="mb-3 form-floating element-size">
-      <input type="date" class="form-control w-50" name="studentDOB" 
-        placeholder="Date Of Birth">
-      <label>Age</label>
-    </div>
+    <div class="element-size">
+    <select class="form-select mb-3 w-50" aria-label="Default select example">
+      <!-- <option selected>Open this select menu</option>
+      <option value="1">One</option>  -->
+
+      <option *ngFor="let student of allStudents" [value]="student.id">{{ student.name }}</option>
+    </select>
+  </div>
+
+  <div class="element-size">
+    <select class="form-select mb-3 w-50" aria-label="Default select example">
+      <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
+    </select>
+  </div>
+
+  <div class="mb-3 form-floating element-size">
+    <input type="text" class="form-control w-50 mb-3" name="studentName"  placeholder="name">
+    <label>Grade</label>
+  </div>
+
     <div class="text-center">
       <button class="btn btn-primary me-3" type="button" >Save</button>
       <button class="btn btn-primary me-3" type="button">Cancel</button>
     </div>  
   </div>
+
+  
 </div>

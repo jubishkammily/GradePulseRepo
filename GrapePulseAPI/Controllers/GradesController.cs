@@ -31,7 +31,7 @@ namespace GrapePulseAPI.Controllers
             return Ok(await _gradeService.AddGradeAsync(gradeDto));
         }
 
-        [HttpGet("Crosstab")]
+        [HttpGet("CrossTab")]
         public async Task<ActionResult> GetGradeCrossTab()
         {
             if (!ModelState.IsValid)
