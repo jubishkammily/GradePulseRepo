@@ -15,9 +15,9 @@ export class GradeService {
     return this.http.get(url);
   }
 
-  createGrade(student: any) {
+  createGrade(grade: any) {
     var url = this.baseUrl + "/Grades/AddGrade"
-    return this.http.post(url, student);
+    return this.http.post(url, grade);
   }
 
   GetGradesGroupByStudent() {

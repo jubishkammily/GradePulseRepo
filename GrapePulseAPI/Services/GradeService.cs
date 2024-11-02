@@ -8,10 +8,14 @@ namespace GradePulseAPI.Services
     public class GradeService : IGradeService
     {
         private IRepository<Grade> _repository;
+        private IRepository<Student> _studentRepository;
+        private IRepository<Subject> _subjectRepository;
 
-        public GradeService(IRepository<Grade> repository)
+        public GradeService(IRepository<Grade> repository, IRepository<Student> studentRepository, IRepository<Subject> subjectRepository)
         {
             _repository = repository;
+            _studentRepository = studentRepository;
+            _subjectRepository = subjectRepository;
         }
 
         public async Task<IEnumerable<GradeExtendedDto>> GetAllGradesAsync()
@@ -35,12 +39,12 @@ namespace GradePulseAPI.Services
         {
             var grades = await _repository.GetAllAsync();
             var result = grades.FirstOrDefault(x => x.SubjectId == dto.SubjectId && x.StudentId == dto.StudentId);
-
+           
             if (result != null) {
                 return 0;
             }
 
-            var grade = DtoToEntityMapping(dto);
+            var grade = await DtoToEntityMapping(dto);
             return await _repository.AddAsync(grade);
         }
 
@@ -64,13 +68,17 @@ namespace GradePulseAPI.Services
 
         }
 
-        private Grade DtoToEntityMapping(GradeDto dto)
+        private async Task<Grade> DtoToEntityMapping(GradeDto dto)
         {
+            var student = await _studentRepository.GetByIdAsync(dto.StudentId);
+            var subject = await _subjectRepository.GetByIdAsync(dto.SubjectId);
             Grade grade = new Grade()
             {
                 StudentId = dto.StudentId,
                 SubjectId = dto.SubjectId,
-                GradeValue = dto.GradeValue,                
+                GradeValue = dto.GradeValue,  
+                Subject = subject,
+                Student = student
             };
             return grade;
         }
@@ -81,8 +89,7 @@ namespace GradePulseAPI.Services
 
             foreach (Grade enity in entityList)
             {
-                var gradeDto = new GradeDto();
-                gradeDto.Id = enity.Id;
+                var gradeDto = new GradeDto();                
                 gradeDto.StudentId = enity.StudentId;
                 gradeDto.SubjectId = enity.SubjectId;
                 gradeDto.GradeValue = enity.GradeValue;               

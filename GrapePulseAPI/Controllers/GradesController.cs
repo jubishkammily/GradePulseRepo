@@ -27,8 +27,8 @@ namespace GrapePulseAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            return Ok(await _gradeService.AddGradeAsync(gradeDto));
+            var result = await _gradeService.AddGradeAsync(gradeDto);
+            return Ok(result);
         }
 
         [HttpGet("CrossTab")]

@@ -1,73 +1,53 @@
-<!-- <table class="table table-bordered">
+<div class="container">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Student Name</th>
-        <th *ngFor="let subject of subjects">{{ subject.name }}</th>
+        <th *ngFor="let subject of subjects" scope="col">{{ subject.name }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let student of studentsWithGrades">
-        <td>{{ student.name }}</td>
+      <tr *ngFor="let student of students">
+        <td>{{ student.studentName }}</td>
         <td *ngFor="let subject of subjects">
-          
-            
+          {{ student.grades[subject.name] || '-' }}
         </td>
       </tr>
     </tbody>
   </table>
-<button (click)="saveGrades()">Save Grades</button> -->
-<div class = "container">
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Student Name</th>
-      <th *ngFor="let subject of subjects" scope = "col">{{ subject.name }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let student of students">
-      <td>{{ student.studentName }}</td>
-      <td *ngFor="let subject of subjects">
-        {{ student.grades[subject.name] || '-' }} 
-      </td>
-    </tr>
-  </tbody>
-</table>
 </div>
 
-<div class="container">
- 
+<div class="editBox">
+  <button class="btn btn-primary me-3" type="button" (click)="showAdd()">Add</button>
+</div>
+
+<div *ngIf="isAddVisible" class="container">
   <div class="editContainer">
-    <!-- <div class="mb-3 form-floating element-size">
-      <input type="text" class="form-control w-50" name="studentName" placeholder="name">
-      <label>Student</label>
-    </div> --> 
+    <div class="element-size">
+      <select class="form-select mb-3 w-50" aria-label="Default select example" [(ngModel)]="grade.studentId">
+        <!-- <option selected>Open this select menu</option>
+             <option value="1">One</option>  -->
+
+        <option *ngFor="let student of allStudents" [value]="student.id">{{ student.name }}</option>
+      </select>
+    </div>
 
     <div class="element-size">
-    <select class="form-select mb-3 w-50" aria-label="Default select example">
-      <!-- <option selected>Open this select menu</option>
-      <option value="1">One</option>  -->
+      <select class="form-select mb-3 w-50" aria-label="Default select example" [(ngModel)]="grade.subjectId">
+        <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
+      </select>
+    </div>
 
-      <option *ngFor="let student of allStudents" [value]="student.id">{{ student.name }}</option>
-    </select>
-  </div>
-
-  <div class="element-size">
-    <select class="form-select mb-3 w-50" aria-label="Default select example">
-      <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
-    </select>
-  </div>
-
-  <div class="mb-3 form-floating element-size">
-    <input type="text" class="form-control w-50 mb-3" name="studentName"  placeholder="name">
-    <label>Grade</label>
-  </div>
+    <div class="mb-3 form-floating element-size">
+      <input type="text" class="form-control w-50 mb-3" [(ngModel)]="grade.gradeValue" name="grade" placeholder="name">
+      <label>Grade</label>
+    </div>
 
     <div class="text-center">
-      <button class="btn btn-primary me-3" type="button" >Save</button>
-      <button class="btn btn-primary me-3" type="button">Cancel</button>
-    </div>  
+      <button class="btn btn-primary me-3" type="button" (click)="saveGrade()">Save</button>
+      <button class="btn btn-primary me-3" type="button" (click)="hideAdd()">Cancel</button>
+    </div>
   </div>
 
-  
+
 </div>

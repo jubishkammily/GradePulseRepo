@@ -20,7 +20,7 @@ export class GradeManagementComponent implements OnInit {
   students:any;
   subjects:any;
   
-  grades:Grade={
+  grade:Grade={
     studentId: '',
     subjectId: '',
     gradeValue: ''
@@ -30,7 +30,7 @@ export class GradeManagementComponent implements OnInit {
   subjectService = inject(SubjectService);
   gradeService = inject(GradeService);
   studentsWithKey: { [key: string]: string } = {};
-
+  isAddVisible:boolean = false;
 
   selectedStudentId:any;
   
@@ -74,7 +74,23 @@ export class GradeManagementComponent implements OnInit {
 
   }
 
-  saveGrades(){    
+  showAdd(){
+    this.isAddVisible = true;
+  }
+
+  saveGrade(){    
+    this.isAddVisible = false;
+    this.gradeService.createGrade(this.grade).subscribe({
+      next:(response) =>{       
+        console.log("");            
+      },
+      error: error => console.log(error),
+      complete: () => console.log("Add grade completed")
+    });
+  }
+
+  hideAdd(){
+    this.isAddVisible = false;
   }
 
 
