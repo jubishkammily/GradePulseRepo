@@ -1,6 +1,5 @@
 ﻿using GradePulseAPI.Data.Repository;
 using GradePulseAPI.Services;
-using GradePulseAPI.Services.Mapping;
 using GrapePulseAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,9 +19,9 @@ namespace GradePulseAPI.Extentions
             });
             services.AddCors();
             services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IEntityToDtoMapping, EntityToDtoMapping>();
-            services.AddScoped<IDtoToEnityMapping, DtoToEnityMapping>();
+            services.AddScoped<ISubjectService, SubjectService>();
+            services.AddScoped<IGradeService, GradeService>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));         
             
             return services;
         }

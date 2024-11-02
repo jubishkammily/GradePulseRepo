@@ -1,6 +1,5 @@
 ﻿using GradePulseAPI.Data.Repository;
 using GradePulseAPI.DTOs;
-using GradePulseAPI.Services.Mapping;
 using GrapePulseAPI.Data;
 using GrapePulseAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,35 +8,31 @@ using Microsoft.EntityFrameworkCore;
 namespace GradePulseAPI.Services
 {
     public class StudentService : IStudentService
-    {
-        private IEntityToDtoMapping _entityToDtoMapping;
-        private IDtoToEnityMapping _dtoToEnitytoMapping;
+    {      
         private IRepository<Student> _repository;
 
-        public StudentService(IEntityToDtoMapping EntityToDtoMapping, IDtoToEnityMapping dtoToEnitytoMapping,IRepository<Student> repository)
-        {           
-            _entityToDtoMapping = EntityToDtoMapping;
-            _dtoToEnitytoMapping = dtoToEnitytoMapping; 
+        public StudentService(IRepository<Student> repository)
+        {                       
             _repository = repository;
         }
 
         public async Task<int> AddStudentAsync(StudentDto dto)
         {
-            var student = _dtoToEnitytoMapping.StudentDtoToEntityMapping(dto);
+            var student = StudentDtoToEntityMapping(dto);
             return await _repository.AddAsync(student);
         }
 
         public async Task<IEnumerable<StudentDto>> GetAllStudentsAsync()
         {
             var students = await _repository.GetAllAsync();
-            var studentDtoList = _entityToDtoMapping.StudentsEntityToDtoMApping((List<Student>)students);
+            var studentDtoList = StudentsEntityToDtoMApping((List<Student>)students);
             return studentDtoList;
         }
 
         public async Task<StudentDto> GetStudentAsync(int id)
         {
             var student = await _repository.GetByIdAsync(id);
-            var studentDto = _entityToDtoMapping.StudentEntityToDtoMApping(student);
+            var studentDto = StudentEntityToDtoMApping(student);
             return studentDto;
         }
 
@@ -52,6 +47,44 @@ namespace GradePulseAPI.Services
         public async Task DeleteAsync(int id)
         {
             await _repository.DeleteAsync(id);            
+        }
+
+        private Student StudentDtoToEntityMapping(StudentDto dto)
+        {
+            Student student = new Student()
+            {
+                Name = dto.Name,
+                DateOfBirth = DateTime.Parse(dto.DateOfBirth).Date
+            };
+            return student;
+        }
+
+        private StudentDto StudentEntityToDtoMApping(Student entity)
+        {
+            StudentDto studentDto = new StudentDto();
+            studentDto.Id = entity.Id;
+            studentDto.Name = entity.Name;
+            studentDto.DateOfBirth = entity.DateOfBirth.ToString();
+
+            return studentDto;
+
+        }
+
+        private List<StudentDto> StudentsEntityToDtoMApping(List<Student> entityList)
+        {
+            var studentDtoList = new List<StudentDto>();
+
+            foreach (Student student in entityList)
+            {
+                var studentDto = new StudentDto();
+                studentDto.Id = student.Id;
+                studentDto.Name = student.Name;
+                studentDto.DateOfBirth = student.DateOfBirth.ToString();
+                studentDtoList.Add(studentDto);
+            }
+
+            return studentDtoList;
+
         }
     }
 }

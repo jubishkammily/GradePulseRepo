@@ -1,13 +1,7 @@
 ﻿using GradePulseAPI.DTOs;
 using GradePulseAPI.Services;
-using GradePulseAPI.Services.Mapping;
-using GrapePulseAPI.Data;
-using GrapePulseAPI.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
+
 
 namespace GrapePulseAPI.Controllers
 {

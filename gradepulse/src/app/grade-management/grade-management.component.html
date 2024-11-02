@@ -1,1 +1,62 @@
-<p>grade-management works!</p>
+<!-- <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th *ngFor="let subject of subjects">{{ subject.name }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of studentsWithGrades">
+        <td>{{ student.name }}</td>
+        <td *ngFor="let subject of subjects">
+          
+            
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<button (click)="saveGrades()">Save Grades</button> -->
+<div class = "container">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Student Name</th>
+      <th *ngFor="let subject of subjects" scope = "col">{{ subject.name }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of students">
+      <td>{{ student.studentName }}</td>
+      <td *ngFor="let subject of subjects">
+        {{ student.grades[subject.name] || '-' }} 
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="container editBox">
+ 
+  <div class="editContainer">
+    <div class="mb-3 form-floating element-size">
+      <input type="text" class="form-control w-50" name="studentName" placeholder="name"[(ngModel)]="studentSearch"  (input)="filterStudents()">
+      <label>Student</label>
+    </div>
+      
+  <!-- <ul *ngIf="filteredStudents.length > 0" class="suggestions">
+    <li *ngFor="let student of filteredStudents" (click)="selectStudent(student)">
+      {{ student.name }}
+    </li>
+  </ul> -->
+
+    <div class="mb-3 form-floating element-size">
+      <input type="date" class="form-control w-50" name="studentDOB" 
+        placeholder="Date Of Birth">
+      <label>Age</label>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary me-3" type="button" >Save</button>
+      <button class="btn btn-primary me-3" type="button">Cancel</button>
+    </div>  
+  </div>
+</div>

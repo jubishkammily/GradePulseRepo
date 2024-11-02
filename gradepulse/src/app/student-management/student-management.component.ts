@@ -37,8 +37,7 @@ ngOnInit(): void {
       this.studentService.createStudent(this.student).subscribe({
         next: (response) => {
           console.log("post");  
-          this.loadStudents(); 
-                  
+          this.loadStudents();                   
         },
         error: error => console.log(error),
         complete: () => console.log("get completed")
@@ -90,6 +89,7 @@ ngOnInit(): void {
       complete: ()=> console.log("get edit completed")
     });       
   }
+
   saveEdit(id:number){
     this.isEditVisible = false;
     this.studentService.updateStudent(this.editedStudent).subscribe({
