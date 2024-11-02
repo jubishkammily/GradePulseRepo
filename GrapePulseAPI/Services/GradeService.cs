@@ -41,7 +41,7 @@ namespace GradePulseAPI.Services
             var result = grades.FirstOrDefault(x => x.SubjectId == dto.SubjectId && x.StudentId == dto.StudentId);
            
             if (result != null) {
-                return 0;
+               throw new CustomErrorException("This student already has a grade recorded for the specified subject.", StatusCodes.Status400BadRequest);               
             }
 
             var grade = await DtoToEntityMapping(dto);
@@ -66,6 +66,34 @@ namespace GradePulseAPI.Services
 
             return crosstabData;
 
+        }
+
+        public async Task UpdateGradeAsync(GradeDto dto)
+        {
+            var grades = await _repository.GetAllAsync();
+            var result = grades.FirstOrDefault(x => x.SubjectId == dto.SubjectId && x.StudentId == dto.StudentId);
+            
+
+            if (result == null)
+            {
+                throw new CustomErrorException("The Item does not exist.", StatusCodes.Status400BadRequest);
+            }
+            Grade grade = await _repository.GetByIdAsync(result.Id);
+            grade.GradeValue = dto.GradeValue;
+
+             await _repository.UpdateAsync(grade);            
+        }
+
+        public async Task DeleteAsync(int subjectId, int studentId)
+        {
+            var grades = await _repository.GetAllAsync();
+            var result = grades.FirstOrDefault(x => x.SubjectId == subjectId && x.StudentId == studentId);
+            if (result == null)
+            {
+                throw new CustomErrorException("The Item does not exist.", StatusCodes.Status400BadRequest);
+            }
+
+            await _repository.DeleteAsync(result.Id);
         }
 
         private async Task<Grade> DtoToEntityMapping(GradeDto dto)

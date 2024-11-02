@@ -26,20 +26,39 @@ export class GradeManagementComponent implements OnInit {
     gradeValue: ''
   };
 
+  gradeDelete:Grade={
+    studentId: '',
+    subjectId: '',
+    gradeValue: ''
+  };
+
+  gradeUpdate:Grade={
+    studentId: '',
+    subjectId: '',
+    gradeValue: ''
+  };
+
+  gradesListOfValues: string[] = ['A', 'B', 'C','D','E','F'];  
+
   studentService = inject(StudentService);
   subjectService = inject(SubjectService);
   gradeService = inject(GradeService);
   studentsWithKey: { [key: string]: string } = {};
   isAddVisible:boolean = false;
+  isDeleteVisible:boolean = false;
+  isEditVisible:boolean = false;
 
   selectedStudentId:any;
   
 
   ngOnInit(): void {
+   this.loadGrades();
+  }
+
+  loadGrades(){
     this.studentService.getStudents().subscribe({
       next:(response) =>{
-        this.allStudents = response;
-        //this.loadStudentWithKeys();
+        this.allStudents = response;        
       }
     });
     this.subjectService.getSubjects().subscribe({
@@ -49,16 +68,7 @@ export class GradeManagementComponent implements OnInit {
       },
       error: error => console.log(error),
       complete: () => console.log("get completed")
-    });    
-
-    // this.gradeService.getGrades().subscribe({
-    //   next:(response) =>{
-    //     this.grades = response;        
-    //   },      
-    //   error: error => console.log(error),
-    //   complete: () => console.log("get completed")
-    // })
-
+    });
     this.gradeService.GetGradesGroupByStudent().subscribe({
       next:(response) =>{
         //this.subjects = response;
@@ -67,22 +77,26 @@ export class GradeManagementComponent implements OnInit {
       },
       error: error => console.log(error),
       complete: () => console.log("get grades by student completed")
-    });
-  }
-
-  loadGrades(){
-
+    });    
   }
 
   showAdd(){
     this.isAddVisible = true;
   }
+  showEdit(){
+    this.isEditVisible = true;
+  }
+  showDelete(){
+    this.isDeleteVisible = true;
+  }
 
   saveGrade(){    
-    this.isAddVisible = false;
+    
     this.gradeService.createGrade(this.grade).subscribe({
       next:(response) =>{       
-        console.log("");            
+        console.log(""); 
+        this.loadGrades();           
+        this.isAddVisible = false;
       },
       error: error => console.log(error),
       complete: () => console.log("Add grade completed")
@@ -92,13 +106,37 @@ export class GradeManagementComponent implements OnInit {
   hideAdd(){
     this.isAddVisible = false;
   }
-
-
-  loadStudentWithKeys(){
-    for(var student of this.students){
-      this.studentsWithKey[student.id] = student.name 
-    }
+  hideEdit(){
+    this.isEditVisible = false;
+  }
+  hideDelete(){
+    this.isDeleteVisible = false;
   }
 
+  deleteGrade(){
+    this.gradeService.deleteGrade(this.gradeDelete).subscribe({
+      next:(response) =>{       
+        console.log(""); 
+        this.loadGrades();           
+        this.isDeleteVisible = false;
+      },
+      error: error => console.log(error),
+      complete: () => console.log("Delete grade completed")
+    });
+
+  }
+
+  updateGrade(){
+    this.gradeService.updateGrade(this.gradeUpdate).subscribe({
+      next:(response) =>{       
+        console.log(""); 
+        this.loadGrades();           
+        this.isEditVisible = false;
+      },
+      error: error => console.log(error),
+      complete: () => console.log("Update grade completed")
+    });
+
+  }
 
 }

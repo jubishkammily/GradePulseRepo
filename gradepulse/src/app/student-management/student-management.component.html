@@ -10,7 +10,6 @@
       </tr>
     </thead>
     <tbody>
-      <!-- @for (student of students; track student.id) { -->
       <tr *ngFor="let student of students">
         <td>{{ student.id }}</td>
         <td>{{ student.name }}</td>
@@ -18,24 +17,18 @@
         <td><button (click)="editStudent(student.id)">edit</button></td>
         <td><a href="students" (click)="deleteStudent(student.id)">delete</a></td>
       </tr>
-      <!-- } -->
     </tbody>
   </table>
-  <!-- <ul>
-    @for (student of students; track student) {
-      <li>{{ student.name }}</li>
-    }
-    
-  </ul> -->
+
 </div>
 <div>
   <button class="btn btn-primary me-3" type="button" (click)="showAdd()">Add</button>
 </div>
-<!-- @if(this.isAddVisible){ -->
+
 <form *ngIf="isAddVisible" #studentForm="ngForm" (ngSubmit)="onSubmit()">
   <h2>Student</h2>
   <br>
-  <!-- <hr> -->
+
   <div class="mb-3 form-floating element-size">
     <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="student.name" placeholder="name">
     <label>Name</label>
@@ -49,26 +42,25 @@
     <button class="btn btn-primary me-3" type="submit">Save</button>
     <button class="btn btn-primary me-3" type="button" (click)="hideAdd()">Cancel</button>
   </div>
-  
+
 </form>
-<!-- } -->
 
 <div class="container editBox">
- 
-    <div *ngIf="isEditVisible" class="editContainer">
-      <div class="mb-3 form-floating element-size">
-        <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="editedStudent.name" placeholder="name">
-        <label>Name</label>
-      </div>
-      <div class="mb-3 form-floating element-size">
-        <input type="date" class="form-control w-50" name="studentDOB" [(ngModel)]="editedStudent.dateOfBirth"
-          placeholder="Date Of Birth">
-        <label>Age</label>
-      </div>
-      <div class="form-group text-center">
-        <button class="btn btn-primary me-3" type="button" (click)="saveEdit(editedStudent.id)">Save</button>
-        <button class="btn btn-primary me-3" type="button" (click)="cancelEdit()">Cancel</button>
-      </div>  
-    </div>
-</div>
 
+  <div *ngIf="isEditVisible" class="editContainer">
+    <div class="mb-3 form-floating element-size">
+      <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="editedStudent.name"
+        placeholder="name">
+      <label>Name</label>
+    </div>
+    <div class="mb-3 form-floating element-size">
+      <input type="date" class="form-control w-50" name="studentDOB" [(ngModel)]="editedStudent.dateOfBirth"
+        placeholder="Date Of Birth">
+      <label>Age</label>
+    </div>
+    <div class="form-group text-center">
+      <button class="btn btn-primary me-3" type="button" (click)="saveEdit(editedStudent.id)">Save</button>
+      <button class="btn btn-primary me-3" type="button" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+</div>

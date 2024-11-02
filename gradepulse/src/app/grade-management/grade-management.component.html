@@ -17,13 +17,22 @@
   </table>
 </div>
 
-<div class="editBox">
-  <button class="btn btn-primary me-3" type="button" (click)="showAdd()">Add</button>
+<div class="container text-center mt-4">
+  <div class="btn-group" role="group" aria-label="Button group">
+    <button type="button" class="btn btn-primary me-2" (click)="showAdd()">Add</button>
+    <button type="button" class="btn btn-primary me-2" (click)="showEdit()">Edit</button>
+    <button type="button" class="btn btn-primary" (click)="showDelete()">Delete</button>
+  </div>
 </div>
 
+
 <div *ngIf="isAddVisible" class="container">
-  <div class="editContainer">
+  <div class="addContainer">
+    <div>
+      <h3>Add Grade</h3>
+    </div>
     <div class="element-size">
+      <label>Student</label>
       <select class="form-select mb-3 w-50" aria-label="Default select example" [(ngModel)]="grade.studentId">
         <!-- <option selected>Open this select menu</option>
              <option value="1">One</option>  -->
@@ -33,19 +42,85 @@
     </div>
 
     <div class="element-size">
+      <label>Subject</label>
       <select class="form-select mb-3 w-50" aria-label="Default select example" [(ngModel)]="grade.subjectId">
         <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
       </select>
     </div>
 
-    <div class="mb-3 form-floating element-size">
-      <input type="text" class="form-control w-50 mb-3" [(ngModel)]="grade.gradeValue" name="grade" placeholder="name">
-      <label>Grade</label>
+    <div class="element-size">
+      <label for="gradeValueId">Grade</label>
+      <select id="gradeValueId" class="form-select mb-3 w-50" aria-label="Default select example"
+        [(ngModel)]="grade.gradeValue">
+        <option *ngFor="let gradeValue of gradesListOfValues" [value]="gradeValue">{{ gradeValue }}</option>
+      </select>
     </div>
-
     <div class="text-center">
       <button class="btn btn-primary me-3" type="button" (click)="saveGrade()">Save</button>
       <button class="btn btn-primary me-3" type="button" (click)="hideAdd()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isDeleteVisible" class="container">
+  <div class="deleteContainer">
+    <div>
+      <h3>Delete Grade</h3>
+    </div>
+    <div class="element-size">
+      <label>Student</label>
+      <select class="form-select mb-3 w-50" aria-label="Default select example" [(ngModel)]="gradeDelete.studentId">
+        <option *ngFor="let student of allStudents" [value]="student.id">{{ student.name }}</option>
+      </select>
+    </div>
+
+    <div class="element-size">
+      <label>Subject</label>
+      <select class="form-select mb-3 w-50" aria-label="Default select example" [(ngModel)]="gradeDelete.subjectId">
+        <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary me-3" type="button" (click)="deleteGrade()">Delete</button>
+      <button class="btn btn-primary me-3" type="button" (click)="hideDelete()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isEditVisible" class="container">
+  <div class="editContainer">
+    <div>
+      <h3>Edit Grade</h3>
+    </div>
+    <div class="element-size">
+      <label>Student</label>
+      <select class="form-select mb-3 w-50" aria-label=" select example" [(ngModel)]="gradeUpdate.studentId">
+        <!-- <option selected>Open this select menu</option>
+                   <option value="1">One</option>  -->
+
+        <option *ngFor="let student of allStudents" [value]="student.id">{{ student.name }}</option>
+      </select>
+    </div>
+
+    <div class="element-size">
+      <label>Subject</label>
+      <select class="form-select mb-3 w-50" aria-label=" select example" [(ngModel)]="gradeUpdate.subjectId">
+        <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
+      </select>
+    </div>
+
+    <div class="element-size">
+      <label for="gradeValueId">Grade</label>
+      <select id="gradeValueId" class="form-select mb-3 w-50" aria-label="Default select example"
+        [(ngModel)]="gradeUpdate.gradeValue">
+        <option *ngFor="let gradeValue of gradesListOfValues" [value]="gradeValue">{{ gradeValue }}</option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary me-3" type="button" (click)="updateGrade()">Save</button>
+      <button class="btn btn-primary me-3" type="button" (click)="hideEdit()">Cancel</button>
     </div>
   </div>
 

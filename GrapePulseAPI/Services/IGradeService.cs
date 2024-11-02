@@ -9,5 +9,8 @@ namespace GradePulseAPI.Services
         Task<IEnumerable<GradeExtendedDto>> GetAllGradesAsync();
 
         Task<List<StudentGradeCrosstabDto>> GetGradesCrosstabAsync();
+        Task UpdateGradeAsync(GradeDto dto);
+
+        Task DeleteAsync(int subjectId, int studentId);
     }
 }

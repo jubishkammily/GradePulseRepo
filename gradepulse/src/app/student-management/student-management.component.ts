@@ -48,8 +48,7 @@ ngOnInit(): void {
 
   loadStudents(){
     this.studentService.getStudents().subscribe({
-      next:(response) => {
-        //console.log("next");
+      next:(response) => {        
         this.students = response;     
         this.changeDetectorRef.detectChanges(); 
       },
