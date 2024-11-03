@@ -16,10 +16,23 @@ namespace GrapePulseAPI.Controllers
         [HttpGet]
         public async Task<ActionResult> GetGrades()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(await _gradeService.GetAllGradesAsync());
+                return Ok(await _gradeService.GetAllGradesAsync());
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+
+            }
         }
 
         [HttpPost("AddGrade")]
@@ -57,12 +70,26 @@ namespace GrapePulseAPI.Controllers
         [HttpGet("CrossTab")]
         public async Task<ActionResult> GetGradeCrossTab()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var crosstabData = await _gradeService.GetGradesCrosstabAsync();
+                var crosstabData = await _gradeService.GetGradesCrosstabAsync();
 
-            return Ok(crosstabData);
+                return Ok(crosstabData);
+            }            
+            catch (Exception ex)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+
+    }
+           
         }
 
 

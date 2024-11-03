@@ -15,25 +15,51 @@ namespace GrapePulseAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubjectDto>>> GetSubjects()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(await _subjectService.GetAllSubjectsAsync());
+                return Ok(await _subjectService.GetAllSubjectsAsync());
+            }
+            catch (CustomErrorException ex)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
+            
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<SubjectDto>> GetSubject(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var student = await _subjectService.GetSubjectAsync(id);
-            if (student == null)
+            try
             {
-                return NotFound();
-            }
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(student);
+                var student = await _subjectService.GetSubjectAsync(id);
+                if (student == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(student);
+            }
+            catch (CustomErrorException ex)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
+            
         }
 
         [HttpPost("AddSubject")]
@@ -48,31 +74,57 @@ namespace GrapePulseAPI.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> UpdateSubject(int id, [FromBody] SubjectDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var studentToUpdate = await _subjectService.GetSubjectAsync(id);
+                var studentToUpdate = await _subjectService.GetSubjectAsync(id);
 
-            if (studentToUpdate == null)
-                return NotFound();
+                if (studentToUpdate == null)
+                    return NotFound();
 
-            await _subjectService.UpdateSubjectAsync(id, dto);
-            return Ok();
+                await _subjectService.UpdateSubjectAsync(id, dto);
+                return Ok();
+            }
+            catch (CustomErrorException ex)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
+            
         }
 
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> DeleteStudent(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var subjectToUpdate = await _subjectService.GetSubjectAsync(id);
+                var subjectToUpdate = await _subjectService.GetSubjectAsync(id);
 
-            if (subjectToUpdate == null)
-                return NotFound();
+                if (subjectToUpdate == null)
+                    return NotFound();
 
-            await _subjectService.DeleteAsync(id);
-            return Ok();
+                await _subjectService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (CustomErrorException ex)
+            {
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
+           
         }
     }
 }
