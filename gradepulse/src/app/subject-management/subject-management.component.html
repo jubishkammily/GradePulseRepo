@@ -1,94 +1,66 @@
-
-<div id="tableContainer">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>      
-        <th scope="col"></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- @for (student of students; track student.id) { -->
-      <tr *ngFor="let subject of subjects">
-        <td>{{ subject.id }}</td>
-        <td>{{ subject.name }}</td>       
-        <td><button (click)="editStudent(subject.id)">edit</button></td>
-        <td><a href="subjects" (click)="deleteStudent(subject.id)">delete</a></td>
-      </tr>
-      <!-- } -->
-    </tbody>
-  </table>
-  <!-- <ul>
+<div>
+  <!-- List of Subjects -->
+  <div id="tableContainer">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- @for (student of students; track student.id) { -->
+        <tr *ngFor="let subject of subjects">
+          <td>{{ subject.id }}</td>
+          <td>{{ subject.name }}</td>
+          <td><button (click)="editStudent(subject.id)">edit</button></td>
+          <td><a href="subjects" (click)="deleteStudent(subject.id)">delete</a></td>
+        </tr>
+        <!-- } -->
+      </tbody>
+    </table>
+    <!-- <ul>
     @for (student of students; track student) {
       <li>{{ student.name }}</li>
     }
     
   </ul> -->
-</div>
-<div>
-  <button class="btn btn-primary me-3" type="button" (click)="showAdd()">Add</button>
-</div>
-<!-- @if(this.isAddVisible){ -->
-<form *ngIf="isAddVisible" #studentForm="ngForm" (ngSubmit)="onSubmit()">
-  <h2>Student</h2>
-  <br>
-  <!-- <hr> -->
-  <div class="mb-3 form-floating element-size">
-    <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="subject.name" placeholder="name">
-    <label>Name</label>
-  </div> 
-  <div class="form-group text-center">
-    <button class="btn btn-primary me-3" type="submit">Save</button>
-    <button class="btn btn-primary me-3" type="button" (click)="hideAdd()">Cancel</button>
   </div>
-  
-</form>
-<!-- } -->
+  <div>
+    <button class="btn btn-primary me-3" type="button" (click)="showAdd()">Add</button>
+  </div>
 
-<div class="container editBox">
- 
+
+  <!--Add Subjects Layout -->
+  <form *ngIf="isAddVisible" #studentForm="ngForm" (ngSubmit)="onSubmit()">
+    <h2>Add Subject</h2>
+    <br>
+    <!-- <hr> -->
+    <div class="mb-3 form-floating element-size">
+      <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="subject.name" placeholder="name">
+      <label>Name</label>
+    </div>
+    <div class="form-group text-center">
+      <button class="btn btn-primary me-3" type="submit">Save</button>
+      <button class="btn btn-primary me-3" type="button" (click)="hideAdd()">Cancel</button>
+    </div>
+
+  </form>
+
+  <!--Edit Subjects Layout -->
+  <div class="container editBox">
     <div *ngIf="isEditVisible" class="editContainer">
       <div class="mb-3 form-floating element-size">
-        <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="editedStudent.name" placeholder="name">
+        <input type="text" class="form-control w-50" name="studentName" [(ngModel)]="editedStudent.name"
+          placeholder="name">
         <label>Name</label>
-      </div>     
+      </div>
       <div class="form-group text-center">
         <button class="btn btn-primary me-3" type="button" (click)="saveEdit(editedStudent.id)">Save</button>
         <button class="btn btn-primary me-3" type="button" (click)="cancelEdit()">Cancel</button>
-      </div>  
+      </div>
     </div>
+  </div>
 </div>
-
-
-<!-- <form #studentForm="ngForm" (ngSubmit)="onSubmit()">
-    <h2>Subject</h2>
-    <br>
-   
-    <div class="mb-3 form-floating element-size">
-        <input 
-        type = "text"
-        class = "form-control w-50"
-        name="subjectName"
-        [(ngModel)] = "model.subjectName"
-        placeholder="name"
-        >
-      <label>Name</label>
-    </div>
-    <div class="mb-3 form-floating element-size">
-        <input 
-        type="number"
-        step = "1"
-        min = "0"
-        class = "form-control w-50"
-        name="studentDOB"
-        [(ngModel)] = "model.credits"
-        placeholder="credits"
-        >
-      <label>Credits</label>
-    </div>
-    <div class="form-group text-center">
-      <button class="btn btn-primary me-3" type="submit">Add</button>
-    </div> 
-</form> -->

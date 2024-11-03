@@ -1,3 +1,4 @@
+<!-- Crosstab Layout -->
 <div class="container">
   <table class="table table-striped">
     <thead>
@@ -17,6 +18,7 @@
   </table>
 </div>
 
+<!-- Buttons -->
 <div class="container text-center mt-4">
   <div class="btn-group" role="group" aria-label="Button group">
     <button type="button" class="btn btn-primary me-2" (click)="showAdd()">Add</button>
@@ -25,7 +27,7 @@
   </div>
 </div>
 
-
+<!-- Add Layout -->
 <div *ngIf="isAddVisible" class="container">
   <div class="addContainer">
     <div>
@@ -62,6 +64,7 @@
   </div>
 </div>
 
+<!-- Edit Layout -->
 <div *ngIf="isDeleteVisible" class="container">
   <div class="deleteContainer">
     <div>
@@ -88,6 +91,7 @@
   </div>
 </div>
 
+<!-- Delete Layout -->
 <div *ngIf="isEditVisible" class="container">
   <div class="editContainer">
     <div>

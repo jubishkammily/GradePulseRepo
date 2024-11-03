@@ -2,3 +2,5 @@ dotnet tool install --global dotnet-ef --version 8.0.3
 dotnet ef migrations add InitialCreate -o Data/Migrations
 Done. To undo this action, use 'ef migrations remove'
 dotnet ef database update  // this will create the table and DB
+
+dotnet dev-certs https --trust
